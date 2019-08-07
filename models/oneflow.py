@@ -99,51 +99,51 @@ class OneStream(nn.Module):
         out2 = F.leaky_relu(self.bn2_2(self.conv2_2(out2)))
         out2 = F.leaky_relu(self.bn2_3(self.conv2_3(out2)))
 
-        out3 = F.relu(self.bn3_1(self.conv3_1(out2)))
-        out3 = F.relu(self.bn3_2(self.conv3_2(out3)))
-        out3 = F.relu(self.bn3_3(self.conv3_3(out3)))
+        out3 = F.leaky_relu(self.bn3_1(self.conv3_1(out2)))
+        out3 = F.leaky_relu(self.bn3_2(self.conv3_2(out3)))
+        out3 = F.leaky_relu(self.bn3_3(self.conv3_3(out3)))
 
-        out4 = F.relu(self.bn4_1(self.conv4_1(out3)))
-        out4 = F.relu(self.bn4_2(self.conv4_2(out4)))
-        out4 = F.relu(self.bn4_3(self.conv4_3(out4)))
+        out4 = F.leaky_relu(self.bn4_1(self.conv4_1(out3)))
+        out4 = F.leaky_relu(self.bn4_2(self.conv4_2(out4)))
+        out4 = F.leaky_relu(self.bn4_3(self.conv4_3(out4)))
 
-        out5 = F.relu(self.bn5_1(self.conv5_1(out4)))
-        out5 = F.relu(self.bn5_2(self.conv5_2(out5)))
-        out5 = F.relu(self.bn5_3(self.conv5_3(out5)))
+        out5 = F.leaky_relu(self.bn5_1(self.conv5_1(out4)))
+        out5 = F.leaky_relu(self.bn5_2(self.conv5_2(out5)))
+        out5 = F.leaky_relu(self.bn5_3(self.conv5_3(out5)))
 
-        out6 = F.relu(self.bn6_1(self.conv6_1(out5)))
-        out6 = F.relu(self.bn6_2(self.conv6_2(out6)))
-        out6 = F.relu(self.bn6_3(self.conv6_3(out6)))
+        out6 = F.leaky_relu(self.bn6_1(self.conv6_1(out5)))
+        out6 = F.leaky_relu(self.bn6_2(self.conv6_2(out6)))
+        out6 = F.leaky_relu(self.bn6_3(self.conv6_3(out6)))
         
-        out7 = F.relu(self.bn7_1(self.conv7_1(out6)))
-        out7 = F.relu(self.bn7_2(self.conv7_2(out7)))
-        out7 = F.relu(self.bn7_3(self.conv7_3(out7)))
+        out7 = F.leaky_relu(self.bn7_1(self.conv7_1(out6)))
+        out7 = F.leaky_relu(self.bn7_2(self.conv7_2(out7)))
+        out7 = F.leaky_relu(self.bn7_3(self.conv7_3(out7)))
 
         out8 = out7
-        out8 = F.relu(self.bn8_1(self.conv8_1(out8)))
+        out8 = F.leaky_relu(self.bn8_1(self.conv8_1(out8)))
         
         #???
 
-        out9 = F.relu(self.bn9_1(self.conv9_1(out8)))
-        out9 = F.relu(self.bn9_2(self.conv9_2(out9)))
+        out9 = F.leaky_relu(self.bn9_1(self.conv9_1(out8)))
+        out9 = F.leaky_relu(self.bn9_2(self.conv9_2(out9)))
 
-        out10 = F.relu(self.bn10_1(self.conv10_1(out9)))
-        out10 = F.relu(self.bn10_2(self.conv10_2(out10)))
+        out10 = F.leaky_relu(self.bn10_1(self.conv10_1(out9)))
+        out10 = F.leaky_relu(self.bn10_2(self.conv10_2(out10)))
 
-        out11 = F.relu(self.bn11_1(self.conv11_1(out10)))
-        out11 = F.relu(self.bn11_2(self.conv11_2(out11)))
+        out11 = F.leaky_relu(self.bn11_1(self.conv11_1(out10)))
+        out11 = F.leaky_relu(self.bn11_2(self.conv11_2(out11)))
 
-        out12 = F.relu(self.bn12_1(self.conv12_1(out11)))
-        out12 = F.relu(self.bn12_2(self.conv12_2(out12)))
+        out12 = F.leaky_relu(self.bn12_1(self.conv12_1(out11)))
+        out12 = F.leaky_relu(self.bn12_2(self.conv12_2(out12)))
 
-        out13 = F.relu(self.bn13_1(self.conv13_1(out12)))
-        out13 = F.relu(self.bn13_2(self.conv13_2(out13)))
+        out13 = F.leaky_relu(self.bn13_1(self.conv13_1(out12)))
+        out13 = F.leaky_relu(self.bn13_2(self.conv13_2(out13)))
 
-        out14 = F.relu(self.bn14_1(self.conv14_1(out13)))
-        out14 = F.relu(self.bn14_2(self.conv14_2(out14)))
+        out14 = F.leaky_relu(self.bn14_1(self.conv14_1(out13)))
+        out14 = F.leaky_relu(self.bn14_2(self.conv14_2(out14)))
 
-        out15 = F.relu(self.bn15_1(self.conv15_1(out14)))
-        out15 = F.relu(self.bn15_2(self.conv15_2(out15)))
+        out15 = F.leaky_relu(self.bn15_1(self.conv15_1(out14)))
+        out15 = F.leaky_relu(self.bn15_2(self.conv15_2(out15)))
 
 
         return output
