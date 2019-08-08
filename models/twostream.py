@@ -3,12 +3,108 @@ To be added
 """
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
+
+class EncoderBlock(nn.Module):
+    def __init__(self, input_channels, output_channels):
+        super(EncoderBlock, self).__init__()
+        self.conv1 = nn.Conv2d(input_channels,output_channels,
+                               kernel_size=3,stride=2,padding=1)
+        self.bn1 = nn.BatchNorm2d(output_channels)
+        input_channels = output_channels
+        self.conv2 = nn.Conv2d(input_channels,output_channels,
+                               kernel_size=3,stride=1,padding=1)
+        self.bn2 = nn.BatchNorm2d(output_channels)
+        self.conv3 = nn.Conv2d(input_channels,output_channels,
+                               kernel_size=3,stride=1,padding=1)
+        self.bn3 = nn.BatchNorm2d(output_channels)
+
+    def forward(self, x):
+        x1 = F.leaky_relu(self.bn1(self.conv1(x)))
+        x2 = F.leaky_relu(self.bn2(self.conv2(x1)))
+        x3 = F.leaky_relu(self.bn3(self.conv3(x2)))
+        return x3 
+
+
+class DecoderBlock(nn.Module):
+    def __init__(self, input_channels,output_channels):
+        super(DecoderBlock, self).__init__()
+        self.deconv1 = nn.ConvTranspose2d(input_channels,output_channels,
+                                          kernel_size=3, stride=2, padding=1,output_padding=1)
+        self.bn1 = nn.BatchNorm2d(output_channels)
+        input_channels = output_channels
+        self.deconv2 = nn.Conv2d(input_channels,output_channels,
+                                          kernel_size=3, stride=1, padding=1)
+        self.bn2 = nn.BatchNorm2d(output_channels)
+        self.deconv3 = nn.Conv2d(input_channels,output_channels,
+                                          kernel_size=3, stride=1, padding=1)
+        self.bn3 = nn.BatchNorm2d(output_channels)
+        #pass
+
+    def forward(self, x):
+        x1 = F.leaky_relu(self.bn1(self.deconv1(x)))
+        x2 = F.leaky_relu(self.bn2(self.deconv2(x1)))
+        x3 = F.leaky_relu(self.bn3(self.deconv3(x2)))
+        return x3 
+        #pass    
+
 
 
 class TwoStream(nn.Module):
     def __init__(self):
         super(TwoStream, self).__init__()
-        pass
+        self.block1A = EncoderBlock(3,16)
+        self.block2A = EncoderBlock(16,32)
+        self.block3A = EncoderBlock(32,64)
+        self.block4A = EncoderBlock(64,128)
+        self.block5A = EncoderBlock(128,256)
+        self.block6A = EncoderBlock(256,512)
+        self.block7A = EncoderBlock(512,1024)
 
-    def forward(self, *input):
-        pass
+        self.block1B = EncoderBlock(1,16)
+        self.block2B = EncoderBlock(16,32)
+        self.block3B = EncoderBlock(32,64)
+        self.block4B = EncoderBlock(64,128)
+        self.block5B = EncoderBlock(128,256)
+        self.block6B = EncoderBlock(256,512)
+        self.block7B = EncoderBlock(512,1024)
+
+        self.block8 = DecoderBlock(1024,512)
+        self.block9 = DecoderBlock(512,256)
+        self.block10 = DecoderBlock(256,128)
+        self.block11 = DecoderBlock(128,64)
+        self.block12 = DecoderBlock(64,32)
+        self.block13 = DecoderBlock(32,16)
+        self.block14 = DecoderBlock(16,3)
+        #pass
+
+    def forward(self, x1, y1):
+        outx1 = self.block1A(x1) 
+        outx2 = self.block2A(outx1) 
+        outx3 = self.block3A(outx2)
+        outx4 = self.block4A(outx3)
+        outx5 = self.block5A(outx4)
+        outx6 = self.block6A(outx5)
+        outx7 = self.block7A(outx6)
+
+        outy1 = self.block1B(y1)  
+        outy2 = self.block2B(outy1) 
+        outy3 = self.block3B(outy2)
+        outy4 = self.block4B(outy3)
+        outy5 = self.block5B(outy4)
+        outy6 = self.block6B(outy5)
+        outy7 = self.block7B(outy6)
+
+        out8 = outx7+outy7
+        
+        out9 = self.block8(out8)
+        out10 = self.block9(out9)
+        out11 = self.block10(out10)
+        out12 = self.block11(out11)
+        out13 = self.block12(out12)
+        out14 = self.block13(out13)
+        out15 = self.block14(out14)
+
+
+
+        return out15
