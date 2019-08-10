@@ -68,14 +68,17 @@ class TwoStream(nn.Module):
         self.block5B = EncoderBlock(128,256)
         self.block6B = EncoderBlock(256,512)
         self.block7B = EncoderBlock(512,1024)
+        
+        self.block8_2 = EncoderBlock(1024,1024)
+        self.block8_3 = EncoderBlock(1024,1024)
 
-        self.block8 = DecoderBlock(1024,512)
-        self.block9 = DecoderBlock(512,256)
-        self.block10 = DecoderBlock(256,128)
-        self.block11 = DecoderBlock(128,64)
-        self.block12 = DecoderBlock(64,32)
-        self.block13 = DecoderBlock(32,16)
-        self.block14 = DecoderBlock(16,3)
+        self.block9 = DecoderBlock(1024,512)
+        self.block10 = DecoderBlock(512,256)
+        self.block11 = DecoderBlock(256,128)
+        self.block12 = DecoderBlock(128,64)
+        self.block13 = DecoderBlock(64,32)
+        self.block14 = DecoderBlock(32,16)
+        self.block15 = DecoderBlock(16,3)
         #pass
 
     def forward(self, x1, y1):
@@ -95,15 +98,17 @@ class TwoStream(nn.Module):
         outy6 = self.block6B(outy5)
         outy7 = self.block7B(outy6)
 
-        out8 = outx7+outy7
+        out8_1 = outx7+outy7
+        out8_2 = self.block8_2(out8_1)
+        out8_3 = self.block8_3(out8_2)+outx7+outy7
         
-        out9 = self.block8(out8)
-        out10 = self.block9(out9)
-        out11 = self.block10(out10)
-        out12 = self.block11(out11)
-        out13 = self.block12(out12)
-        out14 = self.block13(out13)
-        out15 = self.block14(out14)
+        out9 = self.block9(out8_3)+outx6+outy6
+        out10 = self.block10(out9)+outx5+outy5
+        out11 = self.block11(out10)+outx4+outy4
+        out12 = self.block12(out11)+outx3+outy3
+        out13 = self.block13(out12)+outx2+outy2
+        out14 = self.block14(out13)+outx1+outy1
+        out15 = self.block15(out14)
 
 
 
